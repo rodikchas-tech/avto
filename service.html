@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сервис — Hypercars</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body class="page">
+    <header class="header">
+        <a class="logo" href="index.html">HYPERCARS</a>
+        <nav class="nav"><a href="index.html">Главная</a><a href="catalog.html">Каталог</a><a href="about.html">О нас</a><a href="service.html" class="active">Сервис</a><a href="contacts.html">Контакты</a></nav>
+        <button class="btn-text" onclick="location.href='contacts.html'">Тест-драйв</button>
+        <button class="menu-btn" aria-label="Меню" onclick="document.querySelector('.nav').classList.toggle('open')">&#9776;</button>
+    </header>
+    <main>
+        <h1>Сервис</h1>
+        <p class="lead">Всё, что нужно владельцу гиперкара после покупки.</p>
+        <div class="grid">
+            <div class="card"><h2>Обслуживание</h2><p>Плановое ТО и диагностика гибридных и высокооборотных силовых установок.</p></div>
+            <div class="card"><h2>Доставка</h2><p>Закрытая перевозка автомобиля до гаража или на трек.</p></div>
+            <div class="card"><h2>Хранение</h2><p>Отапливаемый бокс с контролем влажности и круглосуточной охраной.</p></div>
+            <div class="card"><h2>Тест-драйв</h2><p>Закрытая площадка и инструктор. Запись через форму на странице контактов.</p></div>
+        </div>
+    </main>
+    <footer class="foot">Учебный проект для портфолио. Названия и товарные знаки принадлежат их владельцам.</footer>
+</body>
+</html>

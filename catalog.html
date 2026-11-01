@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог — Hypercars</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body class="page">
+    <header class="header">
+        <a class="logo" href="index.html">HYPERCARS</a>
+        <nav class="nav"><a href="index.html">Главная</a><a href="catalog.html" class="active">Каталог</a><a href="about.html">О нас</a><a href="service.html">Сервис</a><a href="contacts.html">Контакты</a></nav>
+        <button class="btn-text" onclick="location.href='contacts.html'">Тест-драйв</button>
+        <button class="menu-btn" aria-label="Меню" onclick="document.querySelector('.nav').classList.toggle('open')">&#9776;</button>
+    </header>
+    <main>
+        <h1>Каталог</h1>
+        <p class="lead">Две машины, которые мы показываем на главной странице.</p>
+        <div class="grid">
+        <article class="card car">
+            <img src="models1/0001.webp" alt="Koenigsegg Regera" loading="lazy">
+            <div class="tag">Гибридный гиперкар</div>
+            <h2>Koenigsegg Regera</h2>
+            <p class="meta">1500 л.с. · 410 км/ч · 2,8 с до 100 км/ч · $1 890 000</p>
+            <div class="row"><a class="btn-text" href="index.html">Смотреть в 3D</a><a class="btn-text" href="contacts.html">Тест-драйв</a></div>
+        </article>
+        <article class="card car">
+            <img src="models2/0001.webp" alt="Bugatti Bolide" loading="lazy">
+            <div class="tag">Трековый гиперкар</div>
+            <h2>Bugatti Bolide</h2>
+            <p class="meta">1850 л.с. · 500+ км/ч · 2,17 с до 100 км/ч · $4 700 000</p>
+            <div class="row"><a class="btn-text" href="index.html?car=1">Смотреть в 3D</a><a class="btn-text" href="contacts.html">Тест-драйв</a></div>
+        </article>
+        </div>
+    </main>
+    <footer class="foot">Учебный проект для портфолио. Названия и товарные знаки принадлежат их владельцам.</footer>
+</body>
+</html>

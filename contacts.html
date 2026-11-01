@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты — Hypercars</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="pages.css">
+</head>
+<body class="page">
+    <header class="header">
+        <a class="logo" href="index.html">HYPERCARS</a>
+        <nav class="nav"><a href="index.html">Главная</a><a href="catalog.html">Каталог</a><a href="about.html">О нас</a><a href="service.html">Сервис</a><a href="contacts.html" class="active">Контакты</a></nav>
+        <button class="btn-text" onclick="location.href='contacts.html'">Тест-драйв</button>
+        <button class="menu-btn" aria-label="Меню" onclick="document.querySelector('.nav').classList.toggle('open')">&#9776;</button>
+    </header>
+    <main>
+        <h1>Контакты</h1>
+        <p class="lead">Оставьте заявку на тест-драйв или задайте вопрос.</p>
+        <div class="grid two">
+            <form class="card" id="test-drive-form">
+                <label>Имя<input type="text" name="name" required></label>
+                <label>Телефон<input type="tel" name="phone" required></label>
+                <label>Автомобиль<select name="car"><option>Koenigsegg Regera</option><option>Bugatti Bolide</option></select></label>
+                <label>Сообщение<textarea name="message" rows="4"></textarea></label>
+                <button class="btn-text" type="submit">Отправить</button>
+                <p class="ok" id="form-status" hidden></p>
+            </form>
+            <div class="card">
+                <h2>Шоурум</h2>
+                <p class="meta">г. Москва, ул. Примерная, 1<br>Ежедневно 10:00–20:00</p>
+                <h2>Связь</h2>
+                <p class="meta">+7 (000) 000-00-00<br>hello@example.com</p>
+            </div>
+        </div>
+    </main>
+    <footer class="foot">Учебный проект для портфолио. Названия и товарные знаки принадлежат их владельцам.</footer>
+
+    <script>
+        // ===== Настройки Telegram: вставь токен и chat id между кавычками =====
+        // (те же самые, что в script.js портфолио)
+        const BOT_TOKEN = "9277238274:AAGWAwEMvnBbVmTXHqjBLLqWNqdNUPqdidU";
+        const CHAT_ID = "2050837969";
+
+        const form = document.getElementById('test-drive-form');
+        const statusBox = document.getElementById('form-status');
+        const submitButton = form.querySelector('button[type="submit"]');
+
+        function setStatus(message, isError) {
+            statusBox.hidden = false;
+            statusBox.textContent = message;
+            statusBox.style.setProperty('color', isError ? '#e08a7a' : 'var(--accent)', 'important');
+        }
+
+        form.addEventListener('submit', async event => {
+            event.preventDefault();
+
+            const data = new FormData(form);
+            const text =
+                'Заявка на тест-драйв (сайт HYPERCARS)\n' +
+                'Имя: ' + data.get('name').trim() + '\n' +
+                'Телефон: ' + data.get('phone').trim() + '\n' +
+                'Автомобиль: ' + data.get('car') + '\n' +
+                'Сообщение: ' + (data.get('message').trim() || '—');
+
+            // Пока токен не вставлен, работаем как демо-форма
+            if (!BOT_TOKEN || !CHAT_ID) {
+                setStatus('Заявка принята. Это демо-форма, данные никуда не отправляются.', false);
+                form.reset();
+                return;
+            }
+
+            submitButton.disabled = true;
+            setStatus('Отправляю...', false);
+
+            try {
+                const response = await fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+                });
+                if (!response.ok) throw new Error('Ответ Telegram: ' + response.status);
+
+                form.reset();
+                setStatus('Заявка отправлена. Мы свяжемся с вами в ближайшее время.', false);
+            } catch (error) {
+                console.error(error);
+                setStatus('Не удалось отправить заявку. Попробуйте ещё раз чуть позже.', true);
+            } finally {
+                submitButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

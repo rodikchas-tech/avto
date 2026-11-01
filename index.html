@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypercars</title>
+    <!-- Загрузчик показываем только при первом заходе за сессию, потом сразу прячем -->
+    <script>
+        try { if (sessionStorage.getItem('hc_loaded')) document.documentElement.classList.add('no-loader'); } catch (e) {}
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Экран загрузки -->
+    <div id="loader" class="loader" role="status" aria-live="polite">
+        <div class="loader-brand">HYPERCARS</div>
+        <div class="loader-bottom">
+            <div class="loader-percent"><span id="loader-num">0</span><small>%</small></div>
+            <div class="loader-bar"><div class="loader-fill" id="loader-fill"></div></div>
+            <div class="loader-note">Загружаем кадры</div>
+        </div>
+    </div>
+
+    <div class="bg-lines"><div class="line"></div><div class="line"></div></div>
+
+    <header class="header">
+        <a class="logo" id="logo" href="index.html">KOENIGSEGG</a>
+        <nav class="nav"><a href="index.html" class="active">Главная</a><a href="catalog.html">Каталог</a><a href="about.html">О нас</a><a href="service.html">Сервис</a><a href="contacts.html">Контакты</a></nav>
+        <button class="btn-text" onclick="location.href='contacts.html'">Тест-драйв</button>
+        <button class="menu-btn" aria-label="Меню" onclick="document.querySelector('.nav').classList.toggle('open')">&#9776;</button>
+    </header>
+
+    <!-- Сцены с машинами создаются в script.js -->
+    <div id="scenes"></div>
+
+    <!-- Световая полоса, которая пролетает при смене машины -->
+    <div class="switch-fx" aria-hidden="true"><div class="fx-bar"></div></div>
+
+    <div class="scroll-indicator">
+        <span class="scroll-text">ЛИСТАЙТЕ ВНИЗ</span>
+        <div class="scroll-line"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

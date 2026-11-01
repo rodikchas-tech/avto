@@ -1,0 +1,545 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+@property --accent { syntax: "<color>"; inherits: true; initial-value: #cda851; }
+@property --bg { syntax: '<color>'; inherits: true; initial-value: #121110; }
+:root { --accent: #cda851; --bg: #121110; transition: --accent 1.2s ease, --bg 1.2s ease; }
+
+/* Базовые настройки страницы — уходим в дорогой тёплый графит */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100dvh;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+    /* Заменили холодный черный на глубокий сложный цвет с тёплым шоколадным подтоном */
+    background-color: var(--bg);
+    color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior: none;
+}
+
+/* Декоративные линии на фоне (делаем их мягкими золотистыми нитями) */
+.bg-lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 25%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.bg-lines .line {
+    width: 1px;
+    height: 100%;
+    /* Линии теперь имеют едва заметный теплый отсвет в цвет машины */
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--accent) 0%, transparent) 0%, color-mix(in srgb, var(--accent) 4%, transparent) 50%, color-mix(in srgb, var(--accent) 0%, transparent) 100%);
+}
+
+/* Огромная фоновая надпись за машиной */
+.bg-watermark {
+    position: fixed;
+    top: 52%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16vw;
+    font-weight: 800;
+    /* Перекрасили буквы в приглушенный золотистый оттенок с минимальной прозрачностью */
+    color: var(--accent);
+    opacity: 0.015;
+    letter-spacing: 2vw;
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform, opacity;
+}
+
+/* Премиальная шапка сайта */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 80px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    box-sizing: border-box;
+    /* Шапка также подстроена под новую теплую гамму */
+    background: color-mix(in srgb, var(--bg) 75%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    background: rgba(18, 17, 16, 0.85);
+}
+
+.logo {
+    color: #ffffff;
+    font-weight: 800;
+    letter-spacing: 6px;
+    font-size: 1.1rem;
+}
+
+.nav a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.4);
+    margin-right: 40px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.nav a.active, .nav a:hover {
+    color: var(--accent); /* Золотой акцент */
+}
+
+.btn-text {
+    background: none;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 10px 24px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-text:hover {
+    background-color: var(--accent);
+    color: #0d0d11;
+}
+
+/* Фоновый слой для машины */
+.car-holder {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.car-viewer {
+    max-width: 52%;
+    height: auto;
+    display: block;
+}
+
+/* Главная оболочка интерфейса */
+.scroll-container {
+    position: relative;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 2;
+}
+
+/* Текстовый блок слева */
+.content-left {
+    position: fixed;
+    left: 8%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    will-change: transform, opacity;
+}
+
+.brand-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.content-left h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin: 0 0 15px 0;
+    line-height: 1;
+    color: #ffffff;
+}
+
+.subtitle {
+    color: #8a8a93; /* Облегченный серый для темного фона */
+    font-size: 1.05rem;
+    font-weight: 400;
+    max-width: 380px;
+    line-height: 1.6;
+}
+
+/* Правая фиксированная колонка для плашек */
+.fixed-specs-aside {
+    position: fixed;
+    right: 8%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    z-index: 99;
+}
+
+/* Премиальные стеклянные плашки (Glassmorphism) */
+.stat-box {
+    background: rgba(255, 255, 255, 0.02); /* Полупрозрачный белый фон */
+    backdrop-filter: blur(15px); /* Эффект матового стекла */
+    -webkit-backdrop-filter: blur(15px);
+    padding: 24px 35px;
+    min-width: 280px;
+    border-radius: 0px;
+    border-left: 3px solid var(--accent); /* Золотой акцентный маркер слева */
+    border-top: 1px solid rgba(255, 255, 255, 0.05); /* Легкий блик сверху карточки */
+    border-right: 1px solid rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); /* Плотная тень в темноте */
+
+    opacity: 0;
+    transform: translateX(450px);
+    will-change: transform, opacity;
+    box-sizing: border-box;
+}
+
+.stat-value {
+    display: block;
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: #ffffff; /* Цифры белые */
+    line-height: 1;
+    font-variant-numeric: tabular-nums; /* цифры одной ширины, чтобы счётчик не дёргался */
+}
+
+.stat-value small {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #8a8a93;
+    margin-left: 4px;
+}
+
+.stat-box::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.07); /* Тонкая темная линия-разделитель */
+    margin-top: 12px;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: #8a8a93;
+    margin-top: 8px;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+/* Индикатор скролла внизу экрана */
+.scroll-indicator {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    z-index: 5;
+    will-change: transform, opacity;
+}
+
+.scroll-text {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #666666;
+}
+
+.scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--accent) 50%, rgba(0,0,0,0) 50%); /* Линия теперь бежит золотом */
+    background-size: 100% 200%;
+    animation: scrollAnimation 2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes scrollAnimation {
+    0% { background-position: 0% 100%; }
+    50% { background-position: 0% 0%; }
+    100% { background-position: 0% -100%; }
+}
+
+/* ==========================================
+   МОБИЛЬНЫЙ АДАПТИВ (ДЛЯ ЭКРАНОВ МЕНЬШЕ 768px)
+   ========================================== */
+@media (max-width: 768px) and (min-height: 501px), (max-width: 1100px) and (orientation: portrait) {
+    html, body {
+        /* Разрешаем мобильный скролл без прыжков интерфейса */
+        overflow: hidden;
+    }
+
+    /* Сжимаем шапку, прячем ссылки меню, чтобы не захламлять экран */
+    .header {
+        padding: 20px 30px;
+    }
+
+    .nav {
+        display: none; /* На телефонах навигацию лучше прятать в бургер */
+    }
+
+    .btn-text {
+        padding: 6px 16px;
+        font-size: 0.7rem;
+    }
+
+    /* Огромный текст на фоне уменьшаем, чтобы он не ломал рамки */
+    .bg-watermark {
+        font-size: 24vw;
+        top: 35%;
+    }
+
+    /* Машина на мобильном: делаем ее крупнее, чтобы рассмотреть детали */
+    .car-viewer {
+        max-width: 90%;
+        transform: translateY(-80px); /* Сдвигаем чуть выше центра, освобождая низ под плашки */
+    }
+
+    /* Перестраиваем текстовый блок: центрируем и поднимаем наверх */
+    .content-left {
+        left: 50%;
+        top: 22%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        width: 90%;
+    }
+
+    .content-left h1 {
+        font-size: 2.4rem; /* Уменьшаем заголовок */
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    /* Перестраиваем плашки характеристик: выстраиваем их в сетку 2х2 внизу экрана */
+    .fixed-specs-aside {
+        right: 50%;
+        top: auto;
+        bottom: 50px; /* Прижимаем к нижней части экрана */
+        transform: translateX(50%);
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Ровная сетка из двух колонок */
+        gap: 12px;
+        width: 90%;
+        max-width: 400px;
+    }
+
+    /* Изменяем направление вылета для мобилок: плашки летят СНИЗУ ВВЕРХ */
+    .stat-box {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 15px 20px;
+        min-width: auto;
+        border-left: 2px solid var(--accent);
+
+        /* Исходное состояние на мобилках: смещены вниз на 250px и скрыты */
+        opacity: 0;
+        transform: translateY(250px);
+    }
+
+    .stat-value {
+        font-size: 1.6rem; /* Компактные цифры */
+    }
+
+    .stat-value small {
+        font-size: 0.8rem;
+    }
+
+    .stat-label {
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+        margin-top: 4px;
+    }
+
+    .stat-box::after {
+        margin-top: 6px;
+    }
+
+    /* Прячем нижнюю стрелку скролла, на мобилках она не нужна */
+    .scroll-indicator {
+        display: none;
+    }
+}
+
+/* ===== Смена машин ===== */
+.scene {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    will-change: transform, opacity;
+    transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1), opacity 1.2s ease;
+}
+.scene .bg-watermark { position: absolute; }
+.scene .car-holder, .scene .content-left, .scene .fixed-specs-aside { position: absolute; }
+.logo { transition: opacity 0.4s ease; }
+
+/* ===== Адаптация под любые экраны ===== */
+.car-viewer { max-height: 75dvh; object-fit: contain; }
+
+/* Планшет горизонтально и небольшие ноутбуки */
+@media (min-width: 769px) and (max-width: 1280px) and (orientation: landscape) {
+    .header { padding: 20px 40px; }
+    .car-viewer { max-width: 46%; }
+    .content-left { left: 5%; }
+    .content-left h1 { font-size: 3rem; }
+    .fixed-specs-aside { right: 4%; gap: 16px; }
+    .stat-box { min-width: 230px; padding: 18px 26px; }
+    .stat-value { font-size: 2rem; }
+}
+
+/* Телефон горизонтально (низкий экран) */
+@media (orientation: landscape) and (max-height: 500px) {
+    .header { padding: 10px 30px; }
+    .nav, .scroll-indicator { display: none; }
+    .car-viewer { max-width: 44%; max-height: 70dvh; }
+    .content-left { left: 4%; }
+    .content-left h1 { font-size: 2rem; }
+    .subtitle { font-size: 0.8rem; max-width: 240px; }
+    .fixed-specs-aside { right: 3%; gap: 8px; }
+    .stat-box { min-width: 170px; padding: 10px 16px; }
+    .stat-value { font-size: 1.3rem; }
+    .stat-label { font-size: 0.55rem; margin-top: 3px; }
+    .stat-box::after { margin-top: 6px; }
+}
+
+/* ===== Меню-бургер (телефон, планшет вертикально, телефон горизонтально) ===== */
+.menu-btn { display: none; background: none; border: 1px solid var(--accent); color: var(--accent); font-size: 1.1rem; padding: 4px 12px; cursor: pointer; }
+a.logo { text-decoration: none; }
+@media (max-width: 768px) and (min-height: 501px), (max-width: 1100px) and (orientation: portrait), (orientation: landscape) and (max-height: 500px) {
+    .menu-btn { display: block; }
+    .nav.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; padding: 8px 30px 20px; background: color-mix(in srgb, var(--bg) 96%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .nav.open a { margin: 0; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+}
+
+/* ==========================================
+   НОВОЕ: переход между страницами, загрузчик, эффект смены машин
+   ========================================== */
+
+/* Плавный переход между страницами (работает в Chrome и Edge, в остальных просто обычный переход) */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.45s; }
+
+/* ===== Экран загрузки ===== */
+.no-loader #loader { display: none; }
+
+.loader {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 32px 80px 48px;
+    box-sizing: border-box;
+    background: var(--bg);
+    transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.loader.done { transform: translateY(-100%); }
+
+.loader-brand {
+    font-weight: 800;
+    letter-spacing: 6px;
+    font-size: 1.1rem;
+}
+
+.loader-percent {
+    font-size: clamp(4.5rem, 16vw, 11rem);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -2px;
+    font-variant-numeric: tabular-nums;
+}
+.loader-percent small {
+    font-size: 0.25em;
+    font-weight: 500;
+    letter-spacing: 0;
+    margin-left: 8px;
+    color: var(--accent);
+}
+
+.loader-bar {
+    height: 2px;
+    margin-top: 28px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+.loader-fill {
+    height: 100%;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
+.loader-note {
+    margin-top: 14px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #8a8a93;
+}
+
+/* ===== Световая полоса при смене машин ===== */
+.switch-fx {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    overflow: hidden;
+    pointer-events: none;
+}
+.fx-bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 60vh;
+    transform: translateY(110vh);
+    background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--accent) 20%, transparent) 50%, transparent);
+}
+.fx-bar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.6;
+}
+
+@media (max-width: 768px) {
+    .loader { padding: 24px 24px 36px; }
+}
+
+/* Если в системе отключены анимации */
+@media (prefers-reduced-motion: reduce) {
+    .loader { transition-duration: 0.01s; }
+    .switch-fx { display: none; }
+    ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none; }
+}
