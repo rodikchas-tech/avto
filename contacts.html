@@ -37,10 +37,10 @@
     <footer class="foot">Учебный проект для портфолио. Названия и товарные знаки принадлежат их владельцам.</footer>
 
     <script>
-        // ===== Настройки Telegram: вставь токен и chat id между кавычками =====
-        // (те же самые, что в script.js портфолио)
-        const BOT_TOKEN = "9277238274:AAHKw7IQ2Qg_pHJ1Hjx94bOlYVzIo8Y78Bs";
-        const CHAT_ID = "2050837969";
+        // ===== Адрес сервера =====
+        // Впиши адрес своего сервера на PythonAnywhere, с /send на конце.
+        // Пример: https://rodion123.pythonanywhere.com/send
+        const SERVER_URL = "https://ИМЯ.pythonanywhere.com/send";
 
         const form = document.getElementById('test-drive-form');
         const statusBox = document.getElementById('form-status');
@@ -55,37 +55,41 @@
         form.addEventListener('submit', async event => {
             event.preventDefault();
 
-            const data = new FormData(form);
-            const text =
-                'Заявка на тест-драйв (сайт HYPERCARS)\n' +
-                'Имя: ' + data.get('name').trim() + '\n' +
-                'Телефон: ' + data.get('phone').trim() + '\n' +
-                'Автомобиль: ' + data.get('car') + '\n' +
-                'Сообщение: ' + (data.get('message').trim() || '—');
-
-            // Пока токен не вставлен, работаем как демо-форма
-            if (!BOT_TOKEN || !CHAT_ID) {
+            // Пока адрес сервера не вписан, работаем как демо-форма
+            if (SERVER_URL.includes('ИМЯ')) {
                 setStatus('Заявка принята. Это демо-форма, данные никуда не отправляются.', false);
                 form.reset();
                 return;
             }
 
+            const data = new FormData(form);
             submitButton.disabled = true;
             setStatus('Отправляю...', false);
 
             try {
-                const response = await fetch('https://api.telegram.org/bot' + BOT_TOKEN + '/sendMessage', {
+                const response = await fetch(SERVER_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ chat_id: CHAT_ID, text: text })
+                    body: JSON.stringify({
+                        site: 'hypercars',
+                        name: data.get('name').trim(),
+                        phone: data.get('phone').trim(),
+                        car: data.get('car'),
+                        message: data.get('message').trim()
+                    })
                 });
-                if (!response.ok) throw new Error('Ответ Telegram: ' + response.status);
+                const result = await response.json().catch(() => ({}));
+
+                if (!response.ok || !result.ok) {
+                    setStatus(result.error || 'Не удалось отправить заявку. Попробуйте ещё раз чуть позже.', true);
+                    return;
+                }
 
                 form.reset();
                 setStatus('Заявка отправлена. Мы свяжемся с вами в ближайшее время.', false);
             } catch (error) {
                 console.error(error);
-                setStatus('Не удалось отправить заявку. Попробуйте ещё раз чуть позже.', true);
+                setStatus('Нет связи с сервером. Попробуйте ещё раз чуть позже.', true);
             } finally {
                 submitButton.disabled = false;
             }
